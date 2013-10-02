@@ -1,0 +1,103 @@
+@CHARSET "ISO-8859-1";
+.clear {
+	clear: both;
+}
+.control {
+	margin: -40px 0 0 20px;
+    position: absolute;
+    width: 50%;
+}
+.control-buttons span a{
+	padding: 5px;
+}
+.control-buttons .play.black a{
+	background: url("../images/play_black.png") no-repeat scroll left center rgba(0, 0, 0, 0);
+    cursor: pointer;
+    display: block;
+    float: left;
+    height: 25px;
+    margin: 0 10px 5px 0;
+    outline: 0 none;
+    text-indent: -999px;
+    width: 16px;
+}
+.control-buttons .pause.black a{
+  	background: url("../images/pause_black.png") no-repeat scroll left center rgba(0, 0, 0, 0);
+    cursor: pointer;
+    display: block;
+    float: left;
+    height: 25px;
+    margin: 0 10px 5px 0;
+    outline: 0 none;
+    text-indent: -999px;
+    width: 16px;
+}
+.control-buttons .reset.black a{
+  	background: url("../images/stop_black.png") no-repeat scroll left center rgba(0, 0, 0, 0);
+    cursor: pointer;
+    display: block;
+    float: left;
+    height: 25px;
+    margin: 0 10px 5px 0;
+    outline: 0 none;
+    text-indent: -999px;
+    width: 16px;
+}
+.scale-container div.min, .scale-container div.max {
+	display: block;
+	float: left;
+	margin: 0 5px;
+}
+.scale-container {
+	background: none repeat scroll 0 0 #FFFFFF;
+    border: 1px solid #4C4C4C;
+    font-size: 10px;
+    margin: 0 0 10px;
+    overflow: hidden;
+    padding: 5px 0;
+    width: 200px;
+}
+.scale-band {
+	display: block;
+	padding: 8px;
+	float: left;
+}
+.legend {
+    border-bottom: 1px solid #4C4C4C;
+    clear: right;
+    color: #222222;
+    font-weight: bold;
+    margin: 0 0 10px;
+    padding: 0 0 8px 10px;
+}
+
+.jvectormap-zoomin, .jvectormap-zoomout {
+	box-sizing: content-box !important;
+   -moz-box-sizing: content-box !important;
+}
+
+#mapdata-slider {
+	height: 40%;
+    margin: 60px 0 0 13px;
+    position: absolute;
+    width: 10px;
+}
+
+#mapdata-slider .noUi-handle.noUi-handle-lower {
+    height: 15px;
+    margin: 0 0 0 -13px;
+    width: 35px;
+}
+.chart-legend {
+    border: 1px solid #C5C5C5;
+    margin: -522px 0 0 850px;
+    padding: 20px;
+    position: absolute;
+}
+.chart-legend span{
+	margin: 0 5px 0 0;
+}
+#chart-canvas{
+	max-width: 1000px;
+    min-height: 600px;
+}
