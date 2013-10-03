@@ -732,9 +732,10 @@ window.Chart = function(context){
 					ctx.stroke();
 				}
 				cumulativeAngle += segmentAngle;
-			}	
+			}			
 		}		
 	}
+
 	var Doughnut = function(data,config,ctx){
 		var segmentTotal = 0;
 		

@@ -65,6 +65,10 @@ function plotData(position) {
 				}
 			}
         });
+        var arr = sortObject(data_columns);
+		var min = arr[0]['value'];
+		var max = arr[arr.length - 1]['value'];
+		var steps = 3;
         var lineChartData = {
 			labels 	 : label,
 			datasets : [{
@@ -75,7 +79,7 @@ function plotData(position) {
 				data: data_columns}]
 		}
         
-    	var myLine = new Chart(document.getElementById("canvas").getContext("2d")).Line(lineChartData);
+    	var myLine = new Chart(document.getElementById("canvas").getContext("2d")).Line(lineChartData,{scaleOverlay : true});
 }
 function slidePlay() {
 	if(counterPlay < count && sliderPlayTime) {

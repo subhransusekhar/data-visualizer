@@ -2,6 +2,7 @@ var stateData = {};
 var latlng = [];
 var result = [];
 var count = 2;
+var legend = {};
 var sliderPlayTime = null; 
 var counterPlay = 1;
 var theme_color = {};
@@ -57,12 +58,19 @@ function plotData(position) {
 			} else {
 				label.push(value[0]);
 				if(!isNaN(value[position])) {
+					legend[value[0]] = parseInt(value[position]);
 					data_columns.push(parseInt(value[position]));
 				} else {
+					legend[value[0]] = parseInt(0);
 					data_columns.push(0);
 				}
 			}
         });
+		var arr = sortObject(data_columns);
+		var min = arr[0]['value'];
+		var max = arr[arr.length - 1]['value'];
+		var ctx = document.getElementById("canvas").getContext("2d");
+		
         var barChartData = {
 			labels 	 : label,
 			datasets : [{
@@ -70,8 +78,13 @@ function plotData(position) {
 				strokeColor : _strokeColor,
 				data: data_columns}]
 		}
-        
-    	var myLine = new Chart(document.getElementById("canvas").getContext("2d")).Bar(barChartData);
+		var steps = 3;
+    	var myLine = new Chart(document.getElementById("canvas").getContext("2d")).Bar(barChartData, {
+			scaleOverride: true,
+			scaleSteps: steps,
+			scaleStepWidth: Math.ceil(max / steps),
+			scaleStartValue: 0
+		});
 }
 function slidePlay() {
 	if(counterPlay < count && sliderPlayTime) {
@@ -81,7 +94,13 @@ function slidePlay() {
 		sliderPlayTime = setTimeout(function () {slidePlay();} , 2000);
 	}
 }
-
+function drawSeries() {
+	jQuery(".scale-container").hide();
+	jQuery(".chart-legend").text('');
+	jQuery.each( legend, function( key, value ) {
+		jQuery(".chart-legend").append("<div>" + key + " : " + value + "</div>");
+	});
+}
 jQuery(document).ready(function() {
 	jQuery('.scale-container').hide();
 	if(csv_file) {
