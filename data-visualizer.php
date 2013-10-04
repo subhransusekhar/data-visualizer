@@ -13,43 +13,55 @@
 function datavisualizer_load_scripts() {
 	wp_enqueue_style( 'visualizer-sliderstyles', plugins_url( 'plugins/noUiSlider/jquery.nouislider.min.css', __FILE__ ) );
 	wp_enqueue_style( 'visualizer-style', plugins_url( 'css/visualizer-style.css', __FILE__ ) );
-	wp_enqueue_script( 'visualizer-slider', plugins_url("plugins/noUiSlider/jquery.nouislider.min.js", __FILE__ ));
-	wp_enqueue_script( 'visualizer-jquerycsv', plugins_url("js/jquery.csv.js", __FILE__ ));
+	wp_enqueue_script( 'visualizer-slider', plugins_url("plugins/noUiSlider/jquery.nouislider.min.js", __FILE__ ),array( 'jquery' ));
+	wp_enqueue_script( 'visualizer-jquerycsv', plugins_url("js/jquery.csv.js", __FILE__ ),array( 'jquery' ));
 }
 add_action( 'wp_enqueue_scripts', 'datavisualizer_load_scripts' );
 
 function datavisualizer_shortcode($attr) {
 	$type = $attr['type'];
+	if(!empty($attr['width'])) {
+	  $width = $attr['width'];
+	}
+	else {
+	  $width = '1000';
+	}
+	if(!empty($attr['height'])) {
+	  $height = $attr['height'];
+	}
+	else {
+	  $height = '600';
+	}
 	switch($type) {
 		case 'barchart':
 				wp_enqueue_script( 'visualizer-chart', plugins_url("plugins/chartjs/Chart.min.js", __FILE__ ));
 				wp_enqueue_script( 'visualizer-barchart', plugins_url("js/bar-chart.js", __FILE__ ));
-				$chat_ele = '<canvas id="canvas" height="600" width="1000"></canvas>';
+				$chat_ele = '<canvas id="canvas" height="' . $height . '" width="' . $width . '"></canvas>';
 			break;
 		case 'linechart':
 			wp_enqueue_script( 'visualizer-chart', plugins_url("plugins/chartjs/Chart.min.js", __FILE__ ));
 			wp_enqueue_script( 'visualizer-linechart', plugins_url("js/line-chart.js", __FILE__ ));
-			$chat_ele = '<canvas id="canvas" height="600" width="1000"></canvas>';
+			$chat_ele = '<canvas id="canvas" height="' . $height . '" width="' . $width . '"></canvas>';
 			break;
 		case 'radarchart':
 			wp_enqueue_script( 'visualizer-chart', plugins_url("plugins/chartjs/Chart.min.js", __FILE__ ));
 			wp_enqueue_script( 'visualizer-radarchart', plugins_url("js/radar-chart.js", __FILE__ ));
-			$chat_ele = '<canvas id="canvas" height="600" width="1000"></canvas>';
+			$chat_ele = '<canvas id="canvas" height="' . $height . '" width="' . $width . '"></canvas>';
 			break;
 		case 'piechart':
 			wp_enqueue_script( 'visualizer-chart', plugins_url("plugins/chartjs/Chart.js", __FILE__ ));
 			wp_enqueue_script( 'visualizer-piechart', plugins_url("js/pie-chart.js", __FILE__ ));
-			$chat_ele = '<canvas id="canvas" height="600" width="1000"></canvas><div class="chart-legend"></div>';
+			$chat_ele = '<canvas id="canvas" height="' . $height . '" width="' . $width . '"></canvas>';
 			break;
 		case 'doughnutchart':
 			wp_enqueue_script( 'visualizer-chart', plugins_url("plugins/chartjs/Chart.min.js", __FILE__ ));
 			wp_enqueue_script( 'visualizer-doughnutchart', plugins_url("js/doughnut-chart.js", __FILE__ ));
-			$chat_ele = '<canvas id="canvas" height="600" width="1000"></canvas><div class="chart-legend"></div>';
+			$chat_ele = '<canvas id="canvas" height="' . $height . '" width="' . $width . '"></canvas>';
 			break;
 		case 'polarareachart':
 			wp_enqueue_script( 'visualizer-chart', plugins_url("plugins/chartjs/Chart.min.js", __FILE__ ));
 			wp_enqueue_script( 'visualizer-polarareachart', plugins_url("js/polararea-chart.js", __FILE__ ));
-			$chat_ele = '<canvas id="canvas" height="600" width="1000"></canvas><div class="chart-legend"></div>';
+			$chat_ele = '<canvas id="canvas" height="' . $height . '" width="' . $width . '"></canvas>';
 			break;
 		case 'map':
 		default:
@@ -88,7 +100,7 @@ function datavisualizer_shortcode($attr) {
 				wp_enqueue_script( 'visualizer-script28', plugins_url("plugins/jvectormap/assets/jquery-jvectormap-in-mill-en.js", __FILE__ ));
 				wp_enqueue_script( 'visualizer-script29', plugins_url("plugins/jvectormap/assets/jquery-jvectormap-in-mill-en.js", __FILE__ ));
 				wp_enqueue_script( 'visualizer-map', plugins_url("js/map.js", __FILE__ ));
-				$chat_ele = '<div id="visualizer" style="width: 100%; height: 75%; margin: 0 auto;"></div>';
+				$chat_ele = '<div id="visualizer" style="width: 100%; height: ' . $height . 'px; margin: 0 auto;"></div>';
 			break;
 	}
 	if(!empty($attr['file'])) {
@@ -146,3 +158,26 @@ function datavisualizer_shortcode($attr) {
 	return $output;	 
 }
 add_shortcode('visualize', 'datavisualizer_shortcode');
+add_filter('widget_text', 'do_shortcode');
+
+function register_button( $buttons ) {
+  array_push( $buttons, "|", "datavisualizer" );
+  return $buttons;
+}
+function add_plugin( $plugin_array ) {
+  $plugin_array['datavisualizer'] = plugins_url('data-visualizer/admin/shortcode/shortcode.js');
+  return $plugin_array;
+}
+
+function datavisualizer_button() {
+
+  if ( ! current_user_can('edit_posts') && ! current_user_can('edit_pages') ) {
+    return;
+  }
+
+  if ( get_user_option('rich_editing') == 'true' ) {
+    add_filter( 'mce_external_plugins', 'add_plugin' );
+    add_filter( 'mce_buttons', 'register_button' );
+  }
+}
+add_action('init', 'datavisualizer_button');
