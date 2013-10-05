@@ -31,7 +31,6 @@
 // executes this when the DOM is ready
 	jQuery(function(){
 		// creates a form to be displayed everytime the button is clicked
-		// you should achieve this using AJAX instead of direct html code like this
 		var form = jQuery('<div id="datavisualizer-form"><table id="datavisualizer-table" class="form-table">\
 			<tr>\
 				<th><label for="datavisualizer-type">Type</label></th>\
@@ -40,7 +39,7 @@
 			</tr>\
 			<tr>\
 				<th><label for="datavisualizer-file">File</label></th>\
-				<td><input type="text" name="file" id="datavisualizer-file" value="" size="80"/><br />\
+				<td><div class="uploader"><input type="text" name="file" id="datavisualizer-file" value="" /> <input class="button" name="file_button" id="datavisualizer-file_button" value="Upload" /></div><br />\
 				<small>specify the fully qualified URL of the CSV file</small>\
 			</tr>\
 			<tr>\
@@ -73,6 +72,26 @@
 		var table = form.find('table');
 		form.appendTo('body').hide();
 		
+		jQuery('.uploader .button').click(function(e) {
+			var send_attachment_bkp = wp.media.editor.send.attachment;
+	        var button = jQuery(this);
+
+	        wp.media.editor.send.attachment = function(props, attachment) {
+
+	            jQuery(button).prev().val(attachment.url);
+
+	            wp.media.editor.send.attachment = send_attachment_bkp;
+	            tb_show( 'Data Visualizer', '#TB_inline?width=' + W + '&height=' + H + '&inlineId=datavisualizer-form' );
+	        }
+
+	        wp.media.editor.open(button);
+
+	        return false;   
+		});
+	
+		 jQuery('.add_media').on('click', function(){
+			 _custom_media = false;
+		 });
 		// handles the click event of the submit button
 		form.find('#datavisualizer-submit').click(function(){
 			// defines the options and their default values
