@@ -34,7 +34,7 @@
 		var form = jQuery('<div id="datavisualizer-form"><table id="datavisualizer-table" class="form-table">\
 			<tr>\
 				<th><label for="datavisualizer-type">Type</label></th>\
-				<td><select id="datavisualizer-type" name="type"><option>barchart</option><option>linechart</option><option>radarchart</option><option>doughnutchart</option><option>piechart</option><option>polarareachart</option><option>map</option></select><br />\
+				<td><select id="datavisualizer-type" name="type"><option>grid</option><option>barchart</option><option>linechart</option><option>radarchart</option><option>doughnutchart</option><option>piechart</option><option>polarareachart</option><option>map</option></select><br />\
 				<small>specify the visualization type.</small></td>\
 			</tr>\
 			<tr>\

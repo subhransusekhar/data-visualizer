@@ -13,13 +13,21 @@
 function datavisualizer_load_scripts() {
 	wp_enqueue_style( 'visualizer-sliderstyles', plugins_url( 'plugins/noUiSlider/jquery.nouislider.min.css', __FILE__ ) );
 	wp_enqueue_style( 'visualizer-style', plugins_url( 'css/visualizer-style.css', __FILE__ ) );
-	wp_enqueue_script( 'visualizer-slider', plugins_url("plugins/noUiSlider/jquery.nouislider.min.js", __FILE__ ),array( 'jquery' ));
+	wp_enqueue_script( 'visualizer-slider', plugins_url("plugins/noUiSlider/jquery.nouislider.min.js", __FILE__ ), array( 'jquery' ));
 	wp_enqueue_script( 'visualizer-jquerycsv', plugins_url("js/jquery.csv.js", __FILE__ ),array( 'jquery' ));
+	wp_enqueue_style( 'visualizer-gridcss', plugins_url("plugins/handsontable/jquery.handsontable.full.css", __FILE__ ));
+	wp_enqueue_script( 'visualizer-grid', plugins_url("plugins/handsontable/jquery.handsontable.full.js", __FILE__ ), array( 'jquery' ));
 }
 add_action( 'wp_enqueue_scripts', 'datavisualizer_load_scripts' );
 
 function datavisualizer_shortcode($attr) {
 	$type = $attr['type'];
+	if(!empty($attr['chart_lib'])) {
+		$chart_lib = $attr['chart_lib'];
+	}
+	else {
+		$chart_lib = 'chartjs';
+	}
 	if(!empty($attr['width'])) {
 	  $width = $attr['width'];
 	}
@@ -34,9 +42,9 @@ function datavisualizer_shortcode($attr) {
 	}
 	switch($type) {
 		case 'barchart':
-				wp_enqueue_script( 'visualizer-chart', plugins_url("plugins/chartjs/Chart.min.js", __FILE__ ));
-				wp_enqueue_script( 'visualizer-barchart', plugins_url("js/bar-chart.js", __FILE__ ));
-				$chat_ele = '<canvas id="canvas" height="' . $height . '" width="' . $width . '"></canvas>';
+			wp_enqueue_script( 'visualizer-chart', plugins_url("plugins/chartjs/Chart.min.js", __FILE__ ));
+			wp_enqueue_script( 'visualizer-barchart', plugins_url("js/bar-chart.js", __FILE__ ));
+			$chat_ele = '<canvas id="canvas" height="' . $height . '" width="' . $width . '"></canvas>';
 			break;
 		case 'linechart':
 			wp_enqueue_script( 'visualizer-chart', plugins_url("plugins/chartjs/Chart.min.js", __FILE__ ));
@@ -49,7 +57,7 @@ function datavisualizer_shortcode($attr) {
 			$chat_ele = '<canvas id="canvas" height="' . $height . '" width="' . $width . '"></canvas>';
 			break;
 		case 'piechart':
-			wp_enqueue_script( 'visualizer-chart', plugins_url("plugins/chartjs/Chart.js", __FILE__ ));
+			wp_enqueue_script( 'visualizer-chart', plugins_url("plugins/chartjs/Chart.min.js", __FILE__ ));
 			wp_enqueue_script( 'visualizer-piechart', plugins_url("js/pie-chart.js", __FILE__ ));
 			$chat_ele = '<canvas id="canvas" height="' . $height . '" width="' . $width . '"></canvas>';
 			break;
@@ -62,6 +70,10 @@ function datavisualizer_shortcode($attr) {
 			wp_enqueue_script( 'visualizer-chart', plugins_url("plugins/chartjs/Chart.min.js", __FILE__ ));
 			wp_enqueue_script( 'visualizer-polarareachart', plugins_url("js/polararea-chart.js", __FILE__ ));
 			$chat_ele = '<canvas id="canvas" height="' . $height . '" width="' . $width . '"></canvas>';
+			break;
+		case 'grid':
+			wp_enqueue_script( 'visualizer-grid-js', plugins_url("js/grid.js", __FILE__ ));
+			$chat_ele = '<div id="visualizer" style="width: 100%; height: ' . $height . 'px; margin: 0 auto;"></div>';
 			break;
 		case 'map':
 		default:
@@ -134,11 +146,16 @@ function datavisualizer_shortcode($attr) {
 					var mask_name = $mask_name;
 					var theme_name = '$theme';
 					var title = '$title';
+					var chart_title = '$title';
+					var chart_type = 'column';
 					var map_name = '$map_name';
+					var width = $width;
+					var height = $height;
 					</script>";
 		$output .= '<h1></h1>
 				<div id="mapdata-slider" class="noUiSlider"></div>
 				' . $chat_ele . '
+				<div id="grid"></div>
 				<div class="control">
 				  <div class="control-buttons">
 					  <span class="play black"><a href="#">Play</a></span>

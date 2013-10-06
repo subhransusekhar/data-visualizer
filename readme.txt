@@ -13,13 +13,14 @@ Explore, Visualize and Share your data with Data Visualizer. A simple yet powerf
 Want to visualize data in seconds, Please use this plugin. You can visualize data through a simple shortcode on a button click e.x [visualize type='barchart' file='http://localhost/wp-content/uploads/2013/09/datafile1.csv' theme='blue' title='My chart Title' width="900" height="600"].
 
 Supported Types are 
-1. barchart
-2. piechart
-3. linechart
-4. radarchart
-5. doughnutchart
-6. polarareachart
-7. Map
+1. grid
+2. barchart
+3. piechart
+4. linechart
+5. radarchart
+6. doughnutchart
+7. polarareachart
+8. Map
 
 Supported Themes are 
 1. blue
