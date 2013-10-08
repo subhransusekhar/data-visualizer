@@ -110,7 +110,7 @@ function datavisualizer_shortcode($attr) {
 				
 				wp_enqueue_script( 'visualizer-script27', plugins_url("plugins/jvectormap/assets/jquery-jvectormap-in-dl-ass-en.js", __FILE__ ));
 				wp_enqueue_script( 'visualizer-script28', plugins_url("plugins/jvectormap/assets/jquery-jvectormap-in-mill-en.js", __FILE__ ));
-				wp_enqueue_script( 'visualizer-script29', plugins_url("plugins/jvectormap/assets/jquery-jvectormap-in-mill-en.js", __FILE__ ));
+				wp_enqueue_script( 'visualizer-script29', plugins_url("plugins/jvectormap/assets/jquery-jvectormap-world-mill-en.js", __FILE__ ));
 				wp_enqueue_script( 'visualizer-map', plugins_url("js/map.js", __FILE__ ));
 				$chat_ele = '<div id="visualizer" style="width: 100%; height: ' . $height . 'px; margin: 0 auto;"></div>';
 			break;
