@@ -49,7 +49,7 @@ function plotData(position) {
 	var data_columns = [];
 	var label = [];
 	if(!position) position = 1;
-	jQuery('#visualizer').html('');
+	jQuery('#' + chart_div).html('');
 		var column = '';
         jQuery.each( result, function( key, value ) {
 			if(key == 0) {
@@ -69,7 +69,7 @@ function plotData(position) {
 		var arr = sortObject(data_columns);
 		var min = arr[0]['value'];
 		var max = arr[arr.length - 1]['value'];
-		var ctx = document.getElementById("canvas").getContext("2d");
+		var ctx = document.getElementById(chart_div).getContext("2d");
 		
         var barChartData = {
 			labels 	 : label,
@@ -79,7 +79,7 @@ function plotData(position) {
 				data: data_columns}]
 		}
 		var steps = 3;
-    	var myLine = new Chart(document.getElementById("canvas").getContext("2d")).Bar(barChartData, {
+    	var myLine = new Chart(document.getElementById(chart_div).getContext("2d")).Bar(barChartData, {
 			scaleOverride: true,
 			scaleSteps: steps,
 			scaleStepWidth: Math.ceil(max / steps),

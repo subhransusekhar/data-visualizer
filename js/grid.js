@@ -4,7 +4,7 @@ function getCSVData() {
         var header = result[0];
         var data = result.splice(1,result.length);
         jQuery("h1").text(title);
-        jQuery("#visualizer").handsontable({
+        jQuery("#" + chart_div).handsontable({
             data: data,
             rowHeaders: true,
             colHeaders: header,

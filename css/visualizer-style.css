@@ -103,3 +103,6 @@
 	max-width: 1000px;
     min-height: 600px;
 }
+.x_ticks_d3 text {
+	transform: rotate(-90deg);
+}

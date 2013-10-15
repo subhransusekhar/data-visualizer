@@ -50,7 +50,7 @@ function plotData(position) {
 	var data_columns = [];
 	var label = [];
 	if(!position) position = 1;
-	jQuery('#visualizer').html('');
+	jQuery('#' + chart_div).html('');
 		var column = '';
         jQuery.each( result, function( key, value ) {
 			if(key == 0) {
@@ -75,7 +75,7 @@ function plotData(position) {
 				data: data_columns}]
 		}
         
-        var myRadar = new Chart(document.getElementById("canvas").getContext("2d")).Radar(radarChartData,{scaleShowLabels : true, pointLabelFontSize : 10});
+        var myRadar = new Chart(document.getElementById(chart_div).getContext("2d")).Radar(radarChartData,{scaleShowLabels : true, pointLabelFontSize : 10});
 }
 function slidePlay() {
 	if(counterPlay < count && sliderPlayTime) {

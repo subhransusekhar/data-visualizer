@@ -50,7 +50,7 @@ function plotData(position) {
 	var data_columns = [];
 	var label = [];
 	if(!position) position = 1;
-	jQuery('#visualizer').html('');
+	jQuery('#' + chart_div).html('');
 		var column = '';
         jQuery.each( result, function( key, value ) {
 			if(key == 0) {
@@ -79,7 +79,12 @@ function plotData(position) {
 				data: data_columns}]
 		}
         
-    	var myLine = new Chart(document.getElementById("canvas").getContext("2d")).Line(lineChartData,{scaleOverlay : true});
+    	var myLine = new Chart(document.getElementById(chart_div).getContext("2d")).Line(lineChartData,{
+			scaleOverride: true,
+			scaleSteps: steps,
+			scaleStepWidth: Math.ceil(max / steps),
+			scaleStartValue: 0
+		});
 }
 function slidePlay() {
 	if(counterPlay < count && sliderPlayTime) {

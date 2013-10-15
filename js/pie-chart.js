@@ -48,7 +48,7 @@ function plotData(position) {
 	var data_columns = [];
 	var label = [];
 	if(!position) position = 1;
-	jQuery('#visualizer').html('');
+	jQuery('#' + chart_div).html('');
 		var column = '';
         jQuery.each( result, function( key, value ) {
 			if(key == 0) {
@@ -66,7 +66,7 @@ function plotData(position) {
 			}
         });
         var pieData = data_columns;
-        var myPie = new Chart(document.getElementById("canvas").getContext("2d")).Pie(pieData,{scaleShowLabels : true, pointLabelFontSize : 10});
+        var myPie = new Chart(document.getElementById(chart_div).getContext("2d")).Pie(pieData,{scaleShowLabels : true, pointLabelFontSize : 10});
         drawSeries();
 }
 function get_random_color() {

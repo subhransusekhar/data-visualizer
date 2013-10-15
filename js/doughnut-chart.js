@@ -48,7 +48,7 @@ function plotData(position) {
 	var data_columns = [];
 	var label = [];
 	if(!position) position = 1;
-	jQuery('#visualizer').html('');
+	jQuery('#' + chart_div).html('');
 		var column = '';
         jQuery.each( result, function( key, value ) {
 			if(key == 0) {
@@ -66,7 +66,7 @@ function plotData(position) {
 			}
         });
         var doughnutData = data_columns;
-        var myDoughnut = new Chart(document.getElementById("canvas").getContext("2d")).Doughnut(doughnutData);
+        var myDoughnut = new Chart(document.getElementById(chart_div).getContext("2d")).Doughnut(doughnutData);
         drawSeries();
 }
 function get_random_color() {
