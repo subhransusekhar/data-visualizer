@@ -3,7 +3,7 @@
  * Plugin Name: Data Visualizer
  * Plugin URI: https://github.com/subhransusekhar/data-visualizer
  * Description: A plugin for Data Visualization
- * Version: 1.0
+ * Version: 1.1
  * Author: Subhransu Sekhar
  * Author URI: http://subhransusekhar.com
  */
@@ -11,23 +11,18 @@
  * enqueue scripts and styles
  */
 function datavisualizer_load_scripts() {
-	wp_enqueue_style( 'visualizer-sliderstyles', plugins_url( 'plugins/noUiSlider/jquery.nouislider.min.css', __FILE__ ) );
-	wp_enqueue_style( 'visualizer-style', plugins_url( 'css/visualizer-style.css', __FILE__ ) );
-	wp_enqueue_script( 'visualizer-slider', plugins_url("plugins/noUiSlider/jquery.nouislider.min.js", __FILE__ ), array( 'jquery' ));
-	wp_enqueue_script( 'visualizer-jquerycsv', plugins_url("js/jquery.csv.js", __FILE__ ),array( 'jquery' ));
-	wp_enqueue_style( 'visualizer-gridcss', plugins_url("plugins/handsontable/jquery.handsontable.full.css", __FILE__ ));
-	wp_enqueue_script( 'visualizer-grid', plugins_url("plugins/handsontable/jquery.handsontable.full.js", __FILE__ ), array( 'jquery' ));
+	wp_enqueue_script( 'visualizer-d3chart', plugins_url("plugins/d3js/d3.v3.min.js", __FILE__ ), array( 'jquery' ));
 }
 add_action( 'wp_enqueue_scripts', 'datavisualizer_load_scripts' );
 
 function datavisualizer_shortcode($attr) {
-  $chart_div = "chart-" . rand(0,32768);
+	$chart_id = "chart" . rand(0,10000);
 	$type = $attr['type'];
 	if(!empty($attr['chart_lib'])) {
 		$chart_lib = $attr['chart_lib'];
 	}
 	else {
-		$chart_lib = 'chartjs';
+		$chart_lib = 'c3js';
 	}
 	if(!empty($attr['width'])) {
 	  $width = $attr['width'];
@@ -41,91 +36,15 @@ function datavisualizer_shortcode($attr) {
 	else {
 	  $height = '600';
 	}
-	if(!empty($attr['series'])) {
-	  	$series = $attr['series'];
-	}
-	else {
-	  	$series = 'single';
-	}
 	switch($type) {
-		case 'barchart':
-			if($chart_lib == 'rickshaw'){
-				wp_enqueue_style( 'rickshaw-style', plugins_url("plugins/rickshaw/rickshaw.min.css", __FILE__ ));
-				wp_enqueue_script( 'chart-d3', plugins_url("plugins/rickshaw/vendor/d3.min.js", __FILE__ ));
-				wp_enqueue_script( 'chart-d3-layout', plugins_url("plugins/rickshaw/vendor/d3.layout.min.js", __FILE__ ));
-				wp_enqueue_script( 'rickshaw-chart', plugins_url("plugins/rickshaw/rickshaw.min.js", __FILE__ ));
-				wp_enqueue_script( 'visualizer-barchart', plugins_url("js/rickshawjs-charts.js", __FILE__ ));
-				$chat_ele = '<div id="'. $chart_div . '" style="width: 100%; height: ' . $height . 'px; margin: 0 auto;"></div>';
-			}
-			else {
-				wp_enqueue_script( 'visualizer-chart', plugins_url("plugins/chartjs/Chart.min.js", __FILE__ ));
-				wp_enqueue_script( 'visualizer-barchart', plugins_url("js/bar-chart.js", __FILE__ ));
-				$chat_ele = '<canvas id="'. $chart_div . '" height="' . $height . '" width="' . $width . '"></canvas>';
-			}
-			$chart_type = 'bar';
-			break;
-		case 'linechart':
-			if($chart_lib == 'rickshaw'){
-				wp_enqueue_style( 'rickshaw-style', plugins_url("plugins/rickshaw/rickshaw.min.css", __FILE__ ));
-				wp_enqueue_script( 'chart-d3', plugins_url("plugins/rickshaw/vendor/d3.min.js", __FILE__ ));
-				wp_enqueue_script( 'chart-d3-layout', plugins_url("plugins/rickshaw/vendor/d3.layout.min.js", __FILE__ ));
-				wp_enqueue_script( 'rickshaw-chart', plugins_url("plugins/rickshaw/rickshaw.min.js", __FILE__ ));
-				wp_enqueue_script( 'visualizer-barchart', plugins_url("js/rickshawjs-charts.js", __FILE__ ));
-				$chat_ele = '<div id="'. $chart_div . '" style="width: 100%; height: ' . $height . 'px; margin: 0 auto;"></div>';
-			}
-			else {
-				wp_enqueue_script( 'visualizer-chart', plugins_url("plugins/chartjs/Chart.min.js", __FILE__ ));
-				wp_enqueue_script( 'visualizer-linechart', plugins_url("js/line-chart.js", __FILE__ ));
-				$chat_ele = '<canvas id="'. $chart_div . '" height="' . $height . '" width="' . $width . '"></canvas>';
-			}
-			$chart_type = 'line';
-			break;
-		case 'areachart': {
-			wp_enqueue_style( 'rickshaw-style', plugins_url("plugins/rickshaw/rickshaw.min.css", __FILE__ ));
-			wp_enqueue_script( 'chart-d3', plugins_url("plugins/rickshaw/vendor/d3.min.js", __FILE__ ));
-			wp_enqueue_script( 'chart-d3-layout', plugins_url("plugins/rickshaw/vendor/d3.layout.min.js", __FILE__ ));
-			wp_enqueue_script( 'rickshaw-chart', plugins_url("plugins/rickshaw/rickshaw.min.js", __FILE__ ));
-			wp_enqueue_script( 'visualizer-barchart', plugins_url("js/rickshawjs-charts.js", __FILE__ ));
-			$chat_ele = '<div id="'. $chart_div . '" style="width: 100%; height: ' . $height . 'px; margin: 0 auto;"></div>';
-		}
-		  $chart_type = 'area';
-		  break;
-		case 'scatterplot': {
-			wp_enqueue_style( 'rickshaw-style', plugins_url("plugins/rickshaw/rickshaw.min.css", __FILE__ ));
-			wp_enqueue_script( 'chart-d3', plugins_url("plugins/rickshaw/vendor/d3.min.js", __FILE__ ));
-			wp_enqueue_script( 'chart-d3-layout', plugins_url("plugins/rickshaw/vendor/d3.layout.min.js", __FILE__ ));
-			wp_enqueue_script( 'rickshaw-chart', plugins_url("plugins/rickshaw/rickshaw.min.js", __FILE__ ));
-			wp_enqueue_script( 'visualizer-barchart', plugins_url("js/rickshawjs-charts.js", __FILE__ ));
-			$chat_ele = '<div id="'. $chart_div . '" style="width: 100%; height: ' . $height . 'px; margin: 0 auto;"></div>';
-		}
-		  $chart_type = 'scatterplot';
-		  break;
-		case 'radarchart':
-			wp_enqueue_script( 'visualizer-chart', plugins_url("plugins/chartjs/Chart.min.js", __FILE__ ));
-			wp_enqueue_script( 'visualizer-radarchart', plugins_url("js/radar-chart.js", __FILE__ ));
-			$chat_ele = '<canvas id="'. $chart_div . '" height="' . $height . '" width="' . $width . '"></canvas>';
-			break;
-		case 'piechart':
-			wp_enqueue_script( 'visualizer-chart', plugins_url("plugins/chartjs/Chart.min.js", __FILE__ ));
-			wp_enqueue_script( 'visualizer-piechart', plugins_url("js/pie-chart.js", __FILE__ ));
-			$chat_ele = '<canvas id="'. $chart_div . '" height="' . $height . '" width="' . $width . '"></canvas>';
-			break;
-		case 'doughnutchart':
-			wp_enqueue_script( 'visualizer-chart', plugins_url("plugins/chartjs/Chart.min.js", __FILE__ ));
-			wp_enqueue_script( 'visualizer-doughnutchart', plugins_url("js/doughnut-chart.js", __FILE__ ));
-			$chat_ele = '<canvas id="'. $chart_div . '" height="' . $height . '" width="' . $width . '"></canvas>';
-			break;
-		case 'polarareachart':
-			wp_enqueue_script( 'visualizer-chart', plugins_url("plugins/chartjs/Chart.min.js", __FILE__ ));
-			wp_enqueue_script( 'visualizer-polarareachart', plugins_url("js/polararea-chart.js", __FILE__ ));
-			$chat_ele = '<canvas id="'. $chart_div . '" height="' . $height . '" width="' . $width . '"></canvas>';
-			break;
 		case 'grid':
-			wp_enqueue_script( 'visualizer-grid-js', plugins_url("js/grid.js", __FILE__ ));
-			$chat_ele = '<div id="'. $chart_div . '" style="width: 100%; height: ' . $height . 'px; margin: 0 auto;"></div>';
+			wp_enqueue_script( 'visualizer-jquerycsv', plugins_url("js/jquery.csv.js", __FILE__ ),array( 'jquery' ));
+			wp_enqueue_style( 'visualizer-gridcss', plugins_url("plugins/handsontable/jquery.handsontable.full.css", __FILE__ ));
+			wp_enqueue_script( 'visualizer-grid', plugins_url("plugins/handsontable/jquery.handsontable.full.js", __FILE__ ), array( 'jquery' ));
+			wp_enqueue_script( 'visualizer-gridscript', plugins_url("js/grid.js", __FILE__ ), array( 'jquery' ));
+			$chat_ele = '<div id="visualizer" style="width: 100%; height: ' . $height . 'px; margin: 0 auto;"></div>';
 			break;
 		case 'map':
-		default:
 				wp_enqueue_style( 'visualizer-styles1', plugins_url( 'plugins/jvectormap/lib/jquery-jvectormap.css', __FILE__ ) );
 				wp_enqueue_script( 'visualizer-script1', plugins_url("plugins/jvectormap/lib/jquery-jvectormap.js", __FILE__ ));
 				wp_enqueue_script( 'visualizer-script2', plugins_url("plugins/jvectormap/lib/jquery-mousewheel.js", __FILE__ ));
@@ -159,10 +78,19 @@ function datavisualizer_shortcode($attr) {
 				
 				wp_enqueue_script( 'visualizer-script27', plugins_url("plugins/jvectormap/assets/jquery-jvectormap-in-dl-ass-en.js", __FILE__ ));
 				wp_enqueue_script( 'visualizer-script28', plugins_url("plugins/jvectormap/assets/jquery-jvectormap-in-mill-en.js", __FILE__ ));
-				wp_enqueue_script( 'visualizer-script29', plugins_url("plugins/jvectormap/assets/jquery-jvectormap-in-mill-en.js", __FILE__ ));
+				wp_enqueue_script( 'visualizer-script29', plugins_url("plugins/jvectormap/assets/jquery-jvectormap-world-mill-en.js", __FILE__ ));
+				wp_enqueue_style( 'visualizer-sliderstyles', plugins_url( 'plugins/noUiSlider/jquery.nouislider.min.css', __FILE__ ) );
+				wp_enqueue_style( 'visualizer-style', plugins_url( 'css/visualizer-style.css', __FILE__ ) );
+				wp_enqueue_script( 'visualizer-slider', plugins_url("plugins/noUiSlider/jquery.nouislider.min.js", __FILE__ ), array( 'jquery' ));
 				wp_enqueue_script( 'visualizer-map', plugins_url("js/map.js", __FILE__ ));
-				$chat_ele = '<div id="'. $chart_div . '" style="width: 100%; height: ' . $height . 'px; margin: 0 auto;"></div>';
+				$chat_ele = '<div id="visualizer" style="width: 100%; height: ' . $height . 'px; margin: 0 auto;"></div>';
 			break;
+	default:
+		wp_enqueue_script( 'visualizer-chart', plugins_url("plugins/c3js/c3.min.js", __FILE__ ), array( 'jquery' ));
+		wp_enqueue_style( 'visualizer-chartcss', plugins_url("plugins/c3js/c3.css", __FILE__ ));
+		wp_enqueue_script( 'visualizer-chartdisplay', plugins_url("js/chart.js", __FILE__ ));
+		$chat_ele = '<div id="' . $chart_id . '" height="' . $height . '" width="' . $width . '"></div>';
+		break;
 	}
 	if(!empty($attr['file'])) {
 		$file = $attr['file'];
@@ -190,35 +118,35 @@ function datavisualizer_shortcode($attr) {
 		else {
 			$map_name = 'india_mill_en';
 		}
+		$chart_type = str_replace('chart', '', $type);
 		$output = "<script>
-					var csv_file = '$file';
-					var mask_name = $mask_name;
-					var theme_name = '$theme';
-					var title = '$title';
-					var chart_title = '$title';
-					var chart_type = '$chart_type';
-					var map_name = '$map_name';
-					var width = $width;
-					var height = $height;
-					var chart_div = '$chart_div';
-					var series_type = '$series';
+					if(typeof chartobj == 'undefined' || !chartobj.length) {
+						var chartobj = [];
+					}
+					chartobj.push({csv_file:'$file', mask_name:'$mask_name', theme_name:'$theme', title:'$title', chart_title:'$title', chart_type:'$chart_type', map_name:'$map_name', width:$width, chart_id:'$chart_id', height:$height});
+					
 					</script>";
-		$output .= '<h1></h1>
-				<div id="mapdata-slider" class="noUiSlider"></div>
-				' . $chat_ele . '
-				<div id="grid"></div>
-				<div class="control">
-				  <div class="control-buttons">
-					  <span class="play black"><a href="#">Play</a></span>
-				    <span class="pause black"><a href="#">Pause</a></span>
-				    <span class="reset black"><a href="#">Reset</a></span>
-				  </div>
-				  <div class="scale-container">
-					  <div class="min">Min</div>
-					  <div class="scale"></div>
-					  <div class="max">Max</div>
-				  </div>
-				</div>';
+		if($type == 'map') {
+			$output .= '<h1></h1>
+					<div id="mapdata-slider" class="noUiSlider"></div>
+					' . $chat_ele . '
+					<div id="grid"></div>
+					<div class="control">
+					  <div class="control-buttons">
+						  <span class="play black"><a href="#">Play</a></span>
+					    <span class="pause black"><a href="#">Pause</a></span>
+					    <span class="reset black"><a href="#">Reset</a></span>
+					  </div>
+					  <div class="scale-container">
+						  <div class="min">Min</div>
+						  <div class="scale"></div>
+						  <div class="max">Max</div>
+					  </div>
+					</div>';
+		}
+		else {
+			$output .= '<h1></h1>' . $chat_ele;
+		}
 	}
 	else {
 		$output = '';

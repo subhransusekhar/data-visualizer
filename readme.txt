@@ -1,27 +1,40 @@
-
 === Data Visualizer ===
-Contributors: Subhransu Sekhar, Binaya Kumar
+Contributors: Subhransu Sekhar, binaya.topno
 Tags: visualization, maps, chart, data visualization
 Requires at least: 3.0
-Tested up to: 3.6
-Stable tag: 2.5.9
+Tested up to: 3.9
+Stable tag: 1.1
 License: GPLv2 or later
 
-Data Visualizer helps to plot data in Maps and Charts
+Explore, Visualize and Share your data with Data Visualizer. A simple yet powerful tool for data visualization.
 
 == Description ==
 
-Want to visualize data in seconds, Please use this plugin. You can visualize data through a simple shortcode e.x [visualize type='map' file='http://localhost/wp-content/uploads/2013/09/datafile1.csv' theme='blue' title='My chart Title'].
+Want to visualize data in seconds, Please use this plugin. You can visualize data through a simple shortcode on a button click e.x [visualize type='barchart' file='http://localhost/wp-content/uploads/2013/09/datafile1.csv' theme='blue' title='My chart Title' width="900" height="600"].
 
-Other Supported Types are 
-1. barchart
-2. piechart
+Supported Types are 
+1. grid
+2. barchart
 3. linechart
-4. radarchart
-5. doughnutchart
-6. polarareachart
+4. line with view finder
+5. donut
+6. piechart
+7. area
+8. area-spline
+9. spline
+10. scatter
+11. map
 
-=== How can I visualize my data? ===
+
+== Installation ==
+
+1. Upload `data-visualizer` to the `/wp-content/plugins/` directory
+2. Activate the plugin through the 'Plugins' menu in WordPress
+3. Place `[visualize type="" file="" width="" height=""]` shortcode with in your post to view the visualization. For more information please go through the FAQ bellow.
+
+== Frequently Asked Questions ==
+
+= How can I visualize my data? =
 
 To visualize your data you need to have the dataset ready in csv format. Upload the csv file using Media option of your wordpress site or blog. You need to use shortcode [visualize] in your post or page which makes your chart ready at the page view.
 What are the attributes of the shortcode?
@@ -36,22 +49,22 @@ The short code takes the following arguments to generate the visualization
 Example use of Shortcode: [visualize type='barchart' file='put the url of the csv file here' theme='blue' title='My chart Title']
 What will be the stracture of the csv file?
 
-=== The csv file need to follow the following guidelines ===
+= The csv file need to follow the following guidelines =
 
-    First Row of the csv should contain the Label of each column
-    First Column should contain the data for x-axis in case of Charts and State/Country name for Map
+    * First Row of the csv should contain the Label of each column
+    * First Column should contain the data for x-axis in case of Charts and State/Country name for Map
 
-=== Which external libraries are used? ===
+= Which external libraries are used? =
 
 This plugin uses the following external libraries
 
-    jvectormap https://github.com/bjornd/jvectormap
-    chartjs https://github.com/nnnick/Chart.js
+    * jvectormap https://github.com/bjornd/jvectormap
+    * c3js https://github.com/masayuki0812/c3
 
-=== Where can I see the Live Demo of the plugin? ===
+= Where can I see the Live Demo of the plugin? =
 
 You can see the plugin working at http://subhransusekhar.com
 
-=== What are the contact details for support? ===
+= What are the contact details for support? =
 
-You can mail me at subhransu[at]pietaslabs[dot]com or subhransu.sm[at]gmail[dot]com. 
+You can mail me at subhransu[at]pietaslabs[dot]com or subhransu.sm[at]gmail[dot]com.

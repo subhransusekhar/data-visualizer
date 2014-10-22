@@ -47,7 +47,7 @@ var result = [];
 var count = 2;
 var theme = theme_color[theme_name];
 function setFocus(code) {
-	 jQuery('#' + chart_div).vectorMap('set', 'focus', code);
+	 jQuery('#visualizer').vectorMap('set', 'focus', code);
 }
 function sortObject(obj) {
     var arr = [];
@@ -65,7 +65,7 @@ function sortObject(obj) {
 function plotData(position) {
 	var state_code = null;
 	if(!position) position = 1;
-	jQuery('#' + chart_div).html('');
+	jQuery('#visualizer').html('');
 		var label ='';
 		var column = '';
         jQuery.each( result, function( key, value ) {
@@ -92,7 +92,7 @@ function plotData(position) {
 		var max = arr[arr.length - 1]['value'];
 		jQuery(".min").text(min);
 		jQuery(".max").text(max);
-        jQuery('#' + chart_div).vectorMap({
+        jQuery('#visualizer').vectorMap({
 			map : map_name,
 			normalizeFunction: 'polynomial',
 			backgroundColor: '#FFF',

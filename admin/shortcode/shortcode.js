@@ -34,7 +34,7 @@
 		var form = jQuery('<div id="datavisualizer-form"><table id="datavisualizer-table" class="form-table">\
 			<tr>\
 				<th><label for="datavisualizer-type">Type</label></th>\
-				<td><select id="datavisualizer-type" name="type"><option>grid</option><option>barchart</option><option>linechart</option><option>areachart</option><option>scatterplot</option><option>radarchart</option><option>doughnutchart</option><option>piechart</option><option>polarareachart</option><option>map</option></select><br />\
+				<td><select id="datavisualizer-type" name="type"><option>grid</option><option>barchart</option><option>linechart</option><option>line with view finder</option><option>donut</option><option>piechart</option><option>area</option><option>area-spline</option><option>spline</option><option>scatter</option><option>map</option></select><br />\
 				<small>specify the visualization type.</small></td>\
 			</tr>\
 			<tr>\
@@ -52,16 +52,6 @@
 				<th><label for="datavisualizer-theme">Theme</label></th>\
 				<td><select id="datavisualizer-theme" name="theme"><option>blue</option><option>red</option><option>green</option><option>yellow</option><option>dark</option></select><br />\
 				<small>specify the color theme.</small></td>\
-			</tr>\
-			<tr>\
-				<th><label for="datavisualizer-chart_lib">Chart Library</label></th>\
-				<td><select id="datavisualizer-chart_lib" name="chart_lib"><option>chartjs</option><option>rickshaw</option></select><br />\
-				<small>specify the chart library.</small></td>\
-			</tr>\
-			<tr>\
-			<th><label for="datavisualizer-series">Series</label></th>\
-			<td><select id="datavisualizer-series" name="series"><option>single</option><option>multi</option></select><br />\
-			<small>Multi Series is only availale in Rickshawjs.</small></td>\
 			</tr>\
 			<tr>\
 				<th><label for="datavisualizer-width">Width</label></th>\
@@ -112,8 +102,6 @@
 				'file'         : '',
 				'title'       : '',
 				'theme'       : '',
-				'chart_lib'   : '',
-				'series'   : '',
 				'width'       : '',
 				'height'       : '',
 				};
